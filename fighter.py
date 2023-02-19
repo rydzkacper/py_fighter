@@ -24,8 +24,6 @@ class Fighter():
             self.jump = False
             dy = screen_height - 110 - self.rect.bottom
 
-        # keypresses
-
         # left and right
 
         key = pygame.key.get_pressed()
@@ -35,8 +33,8 @@ class Fighter():
             dx = SPEED
         # jump
         if key[pygame.K_w] and self.jump == False:
-            self.vel_y = -15
-            self.jump == True
+            self.vel_y = -30
+            self.jump = True
 
         # gravity
         self.vel_y += GRAVITY
