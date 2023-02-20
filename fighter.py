@@ -6,8 +6,11 @@ class Fighter():
         self.rect = pygame.Rect((x, y, 80, 180))
         self.vel_y = 0
         self.jump = False
+        self.attacking = False
+        self.attack_type = 0
+        self.health = 100
 
-    def move(self, screen_width, screen_height):
+    def move(self, screen_width, screen_height, surface, target):
         SPEED = 10
         GRAVITY = 2
         dx = 0
@@ -27,15 +30,24 @@ class Fighter():
         # left and right
 
         key = pygame.key.get_pressed()
-        if key[pygame.K_a]:
-            dx = - SPEED
-        if key[pygame.K_d]:
-            dx = SPEED
-        # jump
-        if key[pygame.K_w] and self.jump == False:
-            self.vel_y = -30
-            self.jump = True
+        if self.attacking == False:
+            if key[pygame.K_a]:
+                dx = - SPEED
+            if key[pygame.K_d]:
+                dx = SPEED
+            # jump
+            if key[pygame.K_w] and self.jump == False:
+                self.vel_y = -30
+                self.jump = True
+        # attack
+        if key[pygame.K_r] or key[pygame.K_t]:
+            self.attack(surface, target)
 
+            # wchich attack used
+            if key[pygame.K_r]:
+                self.attack_type = 1
+            if key[pygame.K_t]:
+                self.attack_type = 2
         # gravity
         self.vel_y += GRAVITY
         dy += self.vel_y
@@ -44,6 +56,14 @@ class Fighter():
 
         self.rect.x += dx
         self.rect.y += dy
+
+    def attack(self, surface, target):
+        self.attacking = True
+        attacking_reckt = pygame.Rect(self.rect.centerx, self.rect.y, 2 * self.rect.width, self.rect.height)
+        if attacking_reckt.colliderect(target.rect):
+            target.health -= 10
+
+        pygame.draw.rect(surface,(0, 255, 0), attacking_reckt)
 
     def draw(self, surface):
         pygame.draw.rect(surface, (255, 0, 0), self.rect)

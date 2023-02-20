@@ -1,5 +1,6 @@
 import pygame
 from fighter import Fighter
+
 pygame.init()
 
 SCREEN_WIDTH = 1000
@@ -7,15 +8,29 @@ SCREEN_HEIGHT = 600
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("PY FIGHTER")
-#framerate
+# framerate
 clock = pygame.time.Clock()
 FPS = 60
+
+# colors
+YELLOW = (255, 255, 0)
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+
 # background image
 bg_image = pygame.image.load("assets/images/backgrounds/background.jpeg")
 
+
 def draw_bg():
-    scale_bg = pygame.transform.scale(bg_image,(SCREEN_WIDTH, SCREEN_HEIGHT))
-    screen.blit(scale_bg, (0,0))
+    scale_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen.blit(scale_bg, (0, 0))
+
+
+# health bars
+def draw_health_bar(health, x, y):
+    ratio = health / 100
+    pygame.draw.rect(screen, YELLOW, (x, y, 400 * ratio, 30))
+
 
 # instances of fighters
 fighter_1 = Fighter(200, 310)
@@ -24,17 +39,20 @@ fighter_2 = Fighter(700, 310)
 run = True
 while run:
     clock.tick(FPS)
-    #background
+    # background
     draw_bg()
-    #fighters move
-    fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT)
-    #fighters draw
+    # show players health
+    draw_health_bar(fighter_1.health, 20, 20)
+    draw_health_bar(fighter_2.health, 580, 20)
+    # fighters move
+    fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
+    # fighters draw
     fighter_1.draw(screen)
     fighter_2.draw(screen)
-    #event handler
+    # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    #update display
+    # update display
     pygame.display.update()
 pygame.quit()
