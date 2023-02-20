@@ -3,6 +3,7 @@ import pygame
 
 class Fighter():
     def __init__(self, x, y):
+        self.flip = False
         self.rect = pygame.Rect((x, y, 80, 180))
         self.vel_y = 0
         self.jump = False
@@ -26,7 +27,11 @@ class Fighter():
             self.vel_y = 0
             self.jump = False
             dy = screen_height - 110 - self.rect.bottom
-
+        # players look at eachother
+        if target.rect.centerx > self.rect.centerx:
+            self.flip = False
+        else:
+            self.flip = True
         # left and right
 
         key = pygame.key.get_pressed()
@@ -43,7 +48,7 @@ class Fighter():
         if key[pygame.K_r] or key[pygame.K_t]:
             self.attack(surface, target)
 
-            # wchich attack used
+            # which attack used
             if key[pygame.K_r]:
                 self.attack_type = 1
             if key[pygame.K_t]:
@@ -59,11 +64,12 @@ class Fighter():
 
     def attack(self, surface, target):
         self.attacking = True
-        attacking_reckt = pygame.Rect(self.rect.centerx, self.rect.y, 2 * self.rect.width, self.rect.height)
-        if attacking_reckt.colliderect(target.rect):
+        attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y,
+                                     2 * self.rect.width, self.rect.height)
+        if attacking_rect.colliderect(target.rect):
             target.health -= 10
 
-        pygame.draw.rect(surface,(0, 255, 0), attacking_reckt)
+        pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
 
     def draw(self, surface):
         pygame.draw.rect(surface, (255, 0, 0), self.rect)
