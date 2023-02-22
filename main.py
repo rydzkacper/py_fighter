@@ -20,6 +20,14 @@ WHITE = (255, 255, 255)
 # background image
 bg_image = pygame.image.load("assets/images/backgrounds/background.jpeg")
 
+warrior_sheet = pygame.image.load("assets/images/warrior/sprites/warrior.png").convert_alpha()
+wizard_sheet = pygame.image.load("assets/images/wizard/sprites/wizard.png").convert_alpha()
+
+# steps of each animation
+
+warrior_animation_steps = [10, 8, 1, 7, 7, 3, 7]
+wizard_animation_steps = [8, 8, 1, 8, 8, 3, 7]
+
 
 def draw_bg():
     scale_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -35,8 +43,8 @@ def draw_health_bar(health, x, y):
 
 
 # instances of fighters
-fighter_1 = Fighter(200, 310)
-fighter_2 = Fighter(700, 310)
+fighter_1 = Fighter(200, 310, warrior_sheet, warrior_animation_steps)
+fighter_2 = Fighter(700, 310, wizard_sheet, wizard_animation_steps)
 # game loop
 run = True
 while run:

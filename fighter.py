@@ -27,7 +27,7 @@ class Fighter():
             self.vel_y = 0
             self.jump = False
             dy = screen_height - 110 - self.rect.bottom
-        # players look at eachother
+        # players look at each-other
         if target.rect.centerx > self.rect.centerx:
             self.flip = False
         else:
@@ -35,7 +35,7 @@ class Fighter():
         # left and right
 
         key = pygame.key.get_pressed()
-        if self.attacking == False:
+        if not self.attacking:
             if key[pygame.K_a]:
                 dx = - SPEED
             if key[pygame.K_d]:
@@ -67,7 +67,7 @@ class Fighter():
         attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y,
                                      2 * self.rect.width, self.rect.height)
         if attacking_rect.colliderect(target.rect):
-            target.health -= 10
+            target.health -= 1
 
         pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
 
