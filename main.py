@@ -17,6 +17,12 @@ YELLOW = (255, 255, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 
+# fighters
+wizard_size = 250
+wizard_data = [wizard_size]
+warrior_size = 162
+warrior_data = [warrior_size]
+
 # background image
 bg_image = pygame.image.load("assets/images/backgrounds/background.jpeg")
 
@@ -43,8 +49,8 @@ def draw_health_bar(health, x, y):
 
 
 # instances of fighters
-fighter_1 = Fighter(200, 310, warrior_sheet, warrior_animation_steps)
-fighter_2 = Fighter(700, 310, wizard_sheet, wizard_animation_steps)
+fighter_1 = Fighter(200, 310, warrior_data, warrior_sheet, warrior_animation_steps)
+fighter_2 = Fighter(700, 310, wizard_data, wizard_sheet, wizard_animation_steps)
 # game loop
 run = True
 while run:
